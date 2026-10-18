@@ -1,4 +1,4 @@
-# Prentrega1
+# Pre-Entrega1
 
 ## Descripción del Proyecto
 
@@ -26,8 +26,8 @@ Este comando utilizará el archivo `.env` para cargar las variables de entorno.
 
 El proyecto requiere las siguientes variables de entorno, que deben configurarse en un archivo `.env` en la raíz del proyecto:
 
-*   `PORT`: El puerto en el que se ejecutará el servidor.
-*   `NODE_ENV`: El entorno de la aplicación (por ejemplo, `development`, `production`).
+- `PORT`: El puerto en el que se ejecutará el servidor.
+- `NODE_ENV`: El entorno de la aplicación (por ejemplo, `development`, `production`).
 
 Ejemplo de archivo `.env`:
 
@@ -40,13 +40,13 @@ NODE_ENV=development
 
 El recurso `services` se gestiona a través del archivo `src/data/services.json`. Es un array de objetos, donde cada objeto representa un servicio y tiene las siguientes propiedades:
 
-*   `id`: `number` - Identificador único del servicio.
-*   `name`: `string` - Nombre del servicio.
-*   `description`: `string` - Descripción detallada del servicio.
-*   `duration`: `number` - Duración del servicio en minutos.
-*   `price`: `number` - Precio del servicio.
-*   `category`: `string` - Categoría a la que pertenece el servicio (por ejemplo, "Estetica", "Bienestar").
-*   `available`: `boolean` - Indica si el servicio está disponible.
+- `id`: `number` - Identificador único del servicio.
+- `name`: `string` - Nombre del servicio.
+- `description`: `string` - Descripción detallada del servicio.
+- `duration`: `number` - Duración del servicio en minutos.
+- `price`: `number` - Precio del servicio.
+- `category`: `string` - Categoría a la que pertenece el servicio (por ejemplo, "Estetica", "Bienestar").
+- `available`: `boolean` - Indica si el servicio está disponible.
 
 Ejemplo de un servicio:
 
