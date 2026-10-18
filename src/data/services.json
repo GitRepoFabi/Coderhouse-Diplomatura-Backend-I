@@ -1,0 +1,29 @@
+[
+  {
+    "id": 1,
+    "name": "Corte de pelo",
+    "description": "Corte de pelo con lavado incluido",
+    "duration": 20,
+    "price": 15000,
+    "category": "Estetica",
+    "available": true
+  },
+  {
+    "id": 2,
+    "name": "Manicura",
+    "description": "Manicura comleta con esmaltado",
+    "duration": 45,
+    "price": 4500,
+    "category": "Estetica",
+    "available": true
+  },
+  {
+    "id": 3,
+    "name": "Masaje descontracturante",
+    "description": "Sesion de masaje corporal de 60 minutos",
+    "duration": 60,
+    "price": 8000,
+    "category": "Bienestar",
+    "available": true
+  }
+]

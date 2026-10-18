@@ -1,0 +1,11 @@
+{
+  "name": "prentrega1",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "node --watch --env-file=.env app.js"
+  },
+  "keywords": [],
+  "type": "module"
+}
