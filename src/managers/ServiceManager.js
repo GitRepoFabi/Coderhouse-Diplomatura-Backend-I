@@ -1,4 +1,3 @@
-import { error } from "node:console";
 import { readFile, writeFile } from "node:fs/promises";
 
 const REQUIRED_FIELDS = [
@@ -23,18 +22,16 @@ export default class ServiceManager {
   async addService(serviceData) {
     for (const field of REQUIRED_FIELDS) {
       if (serviceData[field] === undefined || serviceData[field] === null) {
-        throw new error(`El campo ${field} está faltante`);
+        throw new Error(`El campo ${field} está faltante`);
       }
-      const data = await this.getServices();
-      const id =
-        data.length > 0
-          ? Math.max(...data.map((service) => service.id)) + 1
-          : 1;
-      const newServices = { id, ...serviceData };
-      data.push(newServices);
-      await this.#save(data);
-      return { payload: newServices, status: "ok" };
     }
+    const data = await this.getServices();
+    const id =
+      data.length > 0 ? Math.max(...data.map((service) => service.id)) + 1 : 1;
+    const newServices = { id, ...serviceData };
+    data.push(newServices);
+    await this.#save(data);
+    return { payload: newServices, status: "ok" };
   }
 
   //Trae todos los servicios
@@ -51,14 +48,17 @@ export default class ServiceManager {
 
   //Modifica el servicio enviado por id
   async updateService(id, updatedData) {
-    const searchedService = await this.getServiceById(id);
-    if (!searchedService) {
-      return { payload: searchedService, status: "NotOK" };
+    const data = await this.getServices();
+    const index = data.findIndex((service) => service.id === id);
+    if (index === -1) {
+      throw new Error(`No se encontró el servicio con id ${id}`);
     }
-    const services = await this.getServices();
-    services[id] = { ...searchedService, ...updatedData };
-    await this.#save(services);
-    return { payload: services[id], status: "Ok" };
+    // Descarta el id del cuerpo y mergea sólo los campos válidos
+    const { id: _ignoredId, ...fieldsToUpdate } = updatedData;
+    const updatedService = { ...data[index], ...fieldsToUpdate };
+    data[index] = updatedService;
+    await this.#save(data);
+    return { payload: updatedService, status: "ok" };
   }
 
   //Elimino el servicio enviado por Id

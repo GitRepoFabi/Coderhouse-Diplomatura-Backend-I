@@ -33,6 +33,10 @@ const createdService = await manager.addService(newService);
 console.log("\nAgregar un servicio: \n");
 console.log("new service", createdService);
 
+//Actualizo el precio del producto 4
+const updatedService = await manager.updateService(4, { price: 16000 });
+console.log("Servicio actualizado:", updatedService);
+
 //Elimina el servicio 4
 
 console.log("\nElimina el servicio #4: \n");

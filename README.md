@@ -14,7 +14,7 @@ npm install
 
 ## Cómo Ejecutar
 
-Para iniciar la aplicación en modo desarrollo con `nodemon` (observando cambios y reiniciando el servidor), ejecuta el siguiente script:
+Para iniciar la aplicación en modo desarrollo con `node --watch` (observando cambios y reiniciando el servidor), ejecuta el siguiente script:
 
 ```bash
 npm run dev
