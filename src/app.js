@@ -1,17 +1,9 @@
 import path from "node:path";
-import envConfig from "./src/config/env.config.js";
-import dotenv from "dotenv";
-import ServiceManager from "./src/managers/ServiceManager.js";
-
-dotenv.config();
+import envConfig from "./config/env.config.js";
+import ServiceManager from "./managers/ServiceManager.js";
 
 const DATABASE_NAME = "services.json";
-const DATABASE_PATH = path.join(
-  import.meta.dirname,
-  "src",
-  "data",
-  DATABASE_NAME,
-);
+const DATABASE_PATH = path.join(import.meta.dirname, "data", DATABASE_NAME);
 
 const manager = new ServiceManager(DATABASE_PATH);
 

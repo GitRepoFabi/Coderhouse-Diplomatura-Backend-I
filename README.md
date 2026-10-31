@@ -113,10 +113,10 @@ console.log(await manager.deleteService(4));
 
 ### `updateService(id, updatedData)` - Modificar un servicio por su ID
 
-Este método actualiza un servicio existente con los datos proporcionados. Si el servicio no se encuentra, retorna `{ payload: searchedService, status: "NotOK" }`.
+Este método actualiza un servicio existente con los datos proporcionados. Si el servicio no se encuentra, lanza una excepción.
 
 ```javascript
-// Ejemplo de uso (no presente en app.js, pero disponible en ServiceManager.js)
-// const updatedService = await manager.updateService(1, { price: 16000 });
-// console.log("Servicio actualizado:", updatedService);
+//Actualizo el precio del producto 4
+const updatedService = await manager.updateService(4, { price: 16000 });
+console.log("Servicio actualizado:", updatedService);
 ```

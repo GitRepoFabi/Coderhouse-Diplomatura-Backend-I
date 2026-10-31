@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "node --watch --env-file=.env app.js"
+    "dev": "node --watch src/app.js"
   },
   "keywords": [],
   "type": "module",

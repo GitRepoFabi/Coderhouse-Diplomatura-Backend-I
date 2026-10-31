@@ -28,7 +28,7 @@ export default class ServiceManager {
     const data = await this.getServices();
     const id =
       data.length > 0 ? Math.max(...data.map((service) => service.id)) + 1 : 1;
-    const newServices = { id, ...serviceData };
+    const newServices = { ...serviceData, id };
     data.push(newServices);
     await this.#save(data);
     return { payload: newServices, status: "ok" };
@@ -64,11 +64,15 @@ export default class ServiceManager {
   //Elimino el servicio enviado por Id
   async deleteService(id) {
     const services = await this.getServices();
-    const filterServices = services.filter((service) => service.id !== id);
-    if (services.length === filterServices.length) {
-      return { payload: id, status: "Notok", message: "Not Found Services" };
+    const serviceIndex = services.findIndex((service) => service.id === id);
+
+    if (serviceIndex === -1) {
+      return null;
     }
-    await this.#save(filterServices);
-    return { payload: filterServices, status: "Ok" };
+
+    const [deleteService] = services.splice(serviceIndex, 1);
+    await this.#save(services);
+
+    return deleteService;
   }
 }
