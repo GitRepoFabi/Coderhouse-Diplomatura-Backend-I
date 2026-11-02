@@ -120,3 +120,27 @@ Este método actualiza un servicio existente con los datos proporcionados. Si el
 const updatedService = await manager.updateService(4, { price: 16000 });
 console.log("Servicio actualizado:", updatedService);
 ```
+
+# Pre-Entrega 2
+
+Se pide desarrollar los siguientes endpoint:
+
+| Método     | Ruta                 | Comportamiento                                                                                                   |
+| :--------- | :------------------- | :--------------------------------------------------------------------------------------------------------------- |
+| **GET**    | `/api/services`      | Devuelve todos los servicios. Acepta filtros por query params: `?category=salud`, `?available=true`              |
+| **GET**    | `/api/services/:sid` | Devuelve el servicio por id. `200` si existe, `404` si no                                                        |
+| **POST**   | `/api/services`      | Crea un servicio con los datos del body. `id` generado automáticamente. `201` si se crea, `400` si faltan campos |
+| **PUT**    | `/api/services/:sid` | Actualiza el servicio. No permite modificar el `id`. `200` si existe, `404` si no                                |
+| **DELETE** | `/api/services/:sid` | Elimina el servicio. `200` si existe, `404` si no                                                                |
+
+## Criterios de aceptación
+
+- [x] Servidor Express configurado con ESM y puerto leído desde .env vía dotenv
+- [x] Router de servicios implementado con express.Router() en services.router.js
+- [x] La lógica de servicios permanece en ServiceManager; app.js no la contiene directamente
+
+## Qué evitar
+
+- [x] No enviar el id en el body del POST; debe generarse internamente
+- [x] No poner la lógica del ServiceManager directamente en app.js
+- [x] No omitir los códigos de estado HTTP (200, 201, 400, 404)
