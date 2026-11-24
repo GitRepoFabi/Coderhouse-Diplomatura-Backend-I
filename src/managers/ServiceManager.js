@@ -35,9 +35,26 @@ export default class ServiceManager {
   }
 
   //Trae todos los servicios
-  async getServices() {
+  async getServices(filters = {}) {
     const data = await readFile(this.databasePath, "utf-8");
-    return JSON.parse(data);
+    let services = JSON.parse(data);
+
+    const { category, available } = filters;
+
+    if (category) {
+      services = services.filter(
+        (service) => service.category?.toLowerCase() === category.toLowerCase(),
+      );
+    }
+
+    if (available !== undefined) {
+      const isAvailable = available === "true" || available === true;
+      services = services.filter(
+        (service) => service.available === isAvailable,
+      );
+    }
+
+    return services;
   }
 
   //Trae el servicios por Id
@@ -48,13 +65,32 @@ export default class ServiceManager {
 
   //Modifica el servicio enviado por id
   async updateService(id, updatedData) {
+    if (!updatedData || typeof updatedData !== "object") {
+      throw new Error("No se enviaron datos para actualizar");
+    }
+
+    // Descarta el id del cuerpo y mergea sólo los campos válidos
+    const { id: _ignoredId, ...fieldsToUpdate } = updatedData;
+
+    // Verificamos cuáles campos válidos vienen en el body
+    const validKeys = Object.keys(fieldsToUpdate).filter(
+      (key) =>
+        REQUIRED_FIELDS.includes(key) &&
+        fieldsToUpdate[key] !== undefined &&
+        fieldsToUpdate[key] !== null,
+    );
+
+    // Si no viene ningún campo válido para actualizar, lanzamos error
+    if (validKeys.length === 0) {
+      throw new Error("No se enviaron campos válidos para actualizar");
+    }
+
     const data = await this.getServices();
     const index = data.findIndex((service) => service.id === id);
     if (index === -1) {
       throw new Error(`No se encontró el servicio con id ${id}`);
     }
-    // Descarta el id del cuerpo y mergea sólo los campos válidos
-    const { id: _ignoredId, ...fieldsToUpdate } = updatedData;
+
     const updatedService = { ...data[index], ...fieldsToUpdate };
     data[index] = updatedService;
     await this.#save(data);

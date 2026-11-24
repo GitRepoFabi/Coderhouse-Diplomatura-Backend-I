@@ -16,10 +16,10 @@ const router = Router();
 
 //Trae todos los servicios
 router.get("/", async (req, res) => {
-  const queryParams = req.query;
   try {
-    const services = await manager.getServices();
-    res.json({ status: "sucess", payload: services });
+    const { category, available } = req.query;
+    const services = await manager.getServices({ category, available });
+    res.status(200).json({ status: "sucess", payload: services });
   } catch (error) {
     res
       .status(404)
@@ -62,12 +62,46 @@ router.post("/", async (req, res) => {
 //Modifica un servicio
 router.put("/:sid", async (req, res) => {
   const id = Number(req.params.sid);
+
+  if (isNaN(id)) {
+    return res.status(400).json({
+      status: "error",
+      message: "El ID proporcionado no es válido",
+    });
+  }
+
   try {
     const data = req.body;
+
+    // if (!data || typeof data !== "object" || Object.keys(data).length === 0) {
+    //   return res.status(400).json({
+    //     status: "error",
+    //     message: "No se han recibido datos para actualizar",
+    //   });
+    // }
+
     const updateService = await manager.updateService(id, data);
-    res.status(200).json({ status: "sucess", payload: updateService.payload });
+
+    // if (!updateService) {
+    //   return res.status(404).json({
+    //     status: "error",
+    //     message: `Servicio con ID ${id} no encontrado`,
+    //   });
+    // }
+
+    res.status(200).json({ status: "success", payload: updateService.payload });
   } catch (error) {
-    res.status(404).json({ status: "error", message: error.message });
+    if (error.message.includes("No se encontró")) {
+      return res.status(404).json({
+        status: "error",
+        message: error.message,
+      });
+    }
+    // Para cualquier error de validación de campos
+    return res.status(400).json({
+      status: "error",
+      message: error.message,
+    });
   }
 });
 
