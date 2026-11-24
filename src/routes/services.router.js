@@ -73,21 +73,7 @@ router.put("/:sid", async (req, res) => {
   try {
     const data = req.body;
 
-    // if (!data || typeof data !== "object" || Object.keys(data).length === 0) {
-    //   return res.status(400).json({
-    //     status: "error",
-    //     message: "No se han recibido datos para actualizar",
-    //   });
-    // }
-
     const updateService = await manager.updateService(id, data);
-
-    // if (!updateService) {
-    //   return res.status(404).json({
-    //     status: "error",
-    //     message: `Servicio con ID ${id} no encontrado`,
-    //   });
-    // }
 
     res.status(200).json({ status: "success", payload: updateService.payload });
   } catch (error) {
