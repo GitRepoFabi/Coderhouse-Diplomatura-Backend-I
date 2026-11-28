@@ -1,5 +1,6 @@
 import express from "express";
 import serviceRouter from "./routes/services.router.js";
+import bookingRouter from "./routes/bookings.router.js";
 
 const app = express();
 
@@ -22,6 +23,7 @@ app.get("/api/health", (req, res) => {
 
 //Routers
 app.use("/api/services", serviceRouter);
+app.use("/api/bookings", bookingRouter);
 
 // Middleware que devuelve una respuesta si el recurso/endpoint consultado no existe
 app.use((req, res) => {

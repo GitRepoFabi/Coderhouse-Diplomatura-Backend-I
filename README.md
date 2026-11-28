@@ -144,3 +144,46 @@ Se pide desarrollar los siguientes endpoint:
 - [x] No enviar el id en el body del POST; debe generarse internamente
 - [x] No poner la lógica del ServiceManager directamente en app.js
 - [x] No omitir los códigos de estado HTTP (200, 201, 400, 404)
+
+# Pre-Entrega 3
+
+Se pide desarrollar la gestión del recurso **bookings** mediante los siguientes endpoints:
+
+| Método   | Ruta                               | Comportamiento                                                                                                                                                                            |
+| :------- | :--------------------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **POST** | `/api/bookings`                    | Crea una reserva con los datos del body (`clientName`, `clientEmail`, `date`, `time`, `status`, `services: []`). `id` generado automáticamente. `201` si se crea, `400` si faltan campos  |
+| **GET**  | `/api/bookings/:bid`               | Devuelve la reserva por id. `200` si existe, `404` si no                                                                                                                                  |
+| **POST** | `/api/bookings/:bid/services/:sid` | Agrega un servicio a una reserva existente como `{ service: sid, quantity: 1 }` o incrementa `quantity` si ya existe. `200` si se actualiza, `404` si la reserva o el servicio no existen |
+
+## Estructura del recurso `Booking`
+
+```json
+{
+  "id": "uuid-o-id-autogenerado",
+  "clientName": "Juan Pérez",
+  "clientEmail": "juan@example.com",
+  "date": "2026-12-05",
+  "time": "14:30",
+  "status": "pending",
+  "services": [
+    {
+      "service": "id-del-servicio",
+      "quantity": 1
+    }
+  ]
+}
+```
+
+## Criterios de aceptación
+
+- [x] Router de reservas implementado con `express.Router()` en `bookings.router.js`
+- [x] La lógica de reservas y persistencia en `bookings.json` permanece en `BookingManager` (`createBooking`, `getBookingById`, `addServiceToBooking`); `app.js` no la contiene directamente
+- [x] Se valida la existencia tanto de la reserva (`:bid`) como del servicio (`:sid`) antes de asociarlos
+- [x] Si el servicio ya está en el array `services` de la reserva, se incrementa su `quantity` en lugar de duplicar el objeto
+
+## Qué evitar
+
+- [x] No enviar el `id` en el body del POST; debe generarse internamente
+- [x] No permitir agregar un `sid` inexistente en `services.json` dentro de una reserva
+- [x] No duplicar objetos del mismo servicio dentro del array `services`
+- [x] No omitir los códigos de estado HTTP (`200`, `201`, `400`, `404`)
